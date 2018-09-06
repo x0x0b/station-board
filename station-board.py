@@ -1,6 +1,7 @@
 # https: // qiita.com/nagataaaas/items/5c7c9ec4813fea85c40c
 
 import datetime
+import os
 
 from flask import Flask, render_template, request
 
@@ -9,7 +10,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 app = Flask(__name__)
-engine = create_engine('sqlite:///app.db')
+db_uri = "sqlite:///" + os.path.join(app.root_path, 'app.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+engine = create_engine(db_uri)
 Base = declarative_base()
 
 
