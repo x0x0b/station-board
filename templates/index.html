@@ -9,20 +9,41 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Flask掲示板</title>
 </head>
 
 <body>
-    <h1>けいじばん</h1>
-    <ul>
-        {% for row in content %}
-        <li>{{row['name']}} : {{row['text']}}</li>
-        {% endfor %}
-    </ul>
-    
-
-
-    <!-- Optional JavaScript -->
+    <div class="container">
+        <h1>Flask掲示板</h1>
+        <table class="table">
+            <tr>
+                <th style="width: 5%">ID</th>
+                <th style="width: 15%">なまえ</th>
+                <th style="width: 60%">ほんぶん</th>
+                <th style="width: 20%">じかん</th>
+            </tr>
+            {% for row in cont %}
+            <tr>
+                <th>{{ row.id }}</th>
+                <th>{{ row.name }}</th>
+                <th>{{ row.content }}</th>
+                <th>{{ row.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+        <form action="/" method="POST">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control col-sm-3" placeholder="なまえ" name="name">
+                    <input type="text" class="form-control col-sm-9" placeholder="ほんぶん" name="content" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button type="submit" name="sub" class="btn btn-primary">とうこう！</button>
+                    </div>
+                </div>
+            </div>
+            <small class="form-text text-muted">へんなことはかいちゃダメ！</small>
+        </form>
+    </div> <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
