@@ -40,12 +40,18 @@ def main_page():
     elif request.method == "POST":
         if not request.form["content"]:
             return render_template("index.html", cont=cont)
-        postname = "ななしさん" if not request.form["name"] else request.form["name"]
-        newpost = Content(
-            name=postname, content=request.form["content"], timestamp=datetime.datetime.now())
-        session.add(newpost)
-        session.commit()
-        cont = session.query(Content).all()
+        try:
+            postname = "ななしさん" if not request.form["name"] else request.form["name"]
+            newpost = Content(
+                name=postname, content=request.form["content"], timestamp=datetime.datetime.now())
+            session.add(newpost)
+            session.commit()
+            cont = session.query(Content).all()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()  # optional, depends on use case
         return render_template("index.html", cont=cont)
     else:
         return render_template("index.html", cont=cont)
