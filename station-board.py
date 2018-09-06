@@ -1,4 +1,5 @@
 # https: // qiita.com/nagataaaas/items/5c7c9ec4813fea85c40c
+# coding: utf-8
 
 import datetime
 import os
@@ -10,7 +11,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 app = Flask(__name__)
-db_uri = "mysql://b43919ff44eea8:28ebc9f7@us-cdbr-iron-east-01.cleardb.net/heroku_8a07ab701ff07b4"
+db_uri = "mysql2://b43919ff44eea8:28ebc9f7@us-cdbr-iron-east-01.cleardb.net/heroku_8a07ab701ff07b4"
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 engine = create_engine(db_uri)
 Base = declarative_base()
