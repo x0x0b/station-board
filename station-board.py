@@ -19,8 +19,8 @@ Base = declarative_base()
 class Content(Base):
     __tablename__ = 'contents'
     id = Column(Integer, primary_key=True, unique=True)
-    name = Column(String)
-    content = Column(String)
+    name = Column(String(64))
+    content = Column(String(512))
     timestamp = Column(DATETIME)
 
     def __repr__(self):
