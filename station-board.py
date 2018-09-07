@@ -2,40 +2,30 @@
 # coding: utf-8
 
 import datetime
-import os
 
 from flask import Flask, render_template, request
-
-from sqlalchemy import create_engine, Column, String, Integer, DATETIME
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, scoped_session
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-db_uri = "mysql://b43919ff44eea8:28ebc9f7@us-cdbr-iron-east-01.cleardb.net/heroku_8a07ab701ff07b4?encoding=utf8mb4"
+db_uri = "mysql://b43919ff44eea8:28ebc9f7@us-cdbr-iron-east-01.cleardb.net/heroku_8a07ab701ff07b4"
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-engine = create_engine(db_uri)
-Base = declarative_base()
+db = SQLAlchemy(app)
 
 
-class Content(Base):
+class Board(db.Model):
     __tablename__ = 'contents'
-    id = Column(Integer, primary_key=True, unique=True)
-    name = Column(String(64))
-    content = Column(String(512))
-    timestamp = Column(DATETIME)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    name = db.Column(db.String(64))
+    content = db.Column(db.String(256))
+    timestamp = db.Column(db.DATETIME)
 
     def __repr__(self):
         return "Content<{}, {}, {}, {}>".format(self.id, self.name, self.content, self.timestamp)
 
 
-Base.metadata.create_all(engine)
-SessionMaker = sessionmaker(bind=engine)
-session = scoped_session(SessionMaker)
-
-
 @app.route("/", methods=["GET", "POST"])
 def main_page():
-    cont = session.query(Content).all()
+    cont = Board.query.all()
     if request.method == "GET":
         return render_template("index.html", cont=cont)
     elif request.method == "POST":
@@ -43,16 +33,14 @@ def main_page():
             return render_template("index.html", cont=cont)
         try:
             postname = "ななしさん" if not request.form["name"] else request.form["name"]
-            newpost = Content(
+            newpost = Board(
                 name=postname, content=request.form["content"], timestamp=datetime.datetime.now())
-            session.add(newpost)
-            session.commit()
-            cont = session.query(Content).all()
+            db.session.add(newpost)
+            db.session.commit()
+            cont = Board.query.all()
         except:
-            session.rollback()
+            db.rollback()
             raise
-        finally:
-            session.close()  # optional, depends on use case
         return render_template("index.html", cont=cont)
     else:
         return render_template("index.html", cont=cont)
