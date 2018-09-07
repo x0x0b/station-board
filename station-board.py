@@ -1,5 +1,6 @@
-# https: // qiita.com/nagataaaas/items/5c7c9ec4813fea85c40c
 # coding: utf-8
+# https: // qiita.com/nagataaaas/items/5c7c9ec4813fea85c40c
+
 
 import datetime
 
