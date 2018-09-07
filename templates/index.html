@@ -15,23 +15,8 @@
 <body>
     <div class="container">
         <h1>Flask掲示板</h1>
-        <table class="table">
-            <tr>
-                <th style="width: 5%">ID</th>
-                <th style="width: 15%">なまえ</th>
-                <th style="width: 60%">ほんぶん</th>
-                <th style="width: 20%">じかん</th>
-            </tr>
-            {% for row in cont %}
-            <tr>
-                <th>{{ row.id }}</th>
-                <th>{{ row.name }}</th>
-                <th>{{ row.content }}</th>
-                <th>{{ row.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</th>
-            </tr>
-            {% endfor %}
-        </table>
-        <form action="/" method="POST">
+        <small class="form-text text-muted">へんなことはかいちゃダメ！</small>
+        <form action="/" method="POST" class="sticky-top">
             <div class="form-group">
                 <div class="input-group">
                     <input type="text" class="form-control col-sm-3" placeholder="なまえ" name="name">
@@ -41,8 +26,23 @@
                     </div>
                 </div>
             </div>
-            <small class="form-text text-muted">へんなことはかいちゃダメ！</small>
         </form>
+        <table class="table">
+            <tr>
+                <th style="width: 5%">ID</th>
+                <th style="width: 15%">なまえ</th>
+                <th style="width: 60%">ほんぶん</th>
+                <th style="width: 20%">じかん</th>
+            </tr>
+            {% for row in cont[::-1] %}
+            <tr>
+                <th>{{ row.id }}</th>
+                <th>{{ row.name }}</th>
+                <th>{{ row.content }}</th>
+                <th>{{ row.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</th>
+            </tr>
+            {% endfor %}
+        </table>
     </div> <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
